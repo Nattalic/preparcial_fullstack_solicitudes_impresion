@@ -36,7 +36,7 @@ export class PrintRequestsService {
 
     // TODO: aplicar aquí la regla de disponibilidad antes de guardar.
     if(!printer.isAvailable){
-      throw new ConflictException("La impresora no esta disponible")
+      throw new ConflictException("La impresora no esta disponible");
     }
 
     const request = this.requests.create({
