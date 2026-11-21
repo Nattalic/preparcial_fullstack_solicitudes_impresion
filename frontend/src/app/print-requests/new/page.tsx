@@ -1,13 +1,32 @@
 import Link from "next/link";
 import { apiFetch } from "../../../lib/api";
 import type { Printer } from "../../../lib/print-types";
+import { redirect } from "next/navigation";
 
 async function createPrintRequest(formData: FormData) {
   "use server";
 
   // TODO C: leer el formulario y enviar el POST con apiFetch.
+    const response = await apiFetch("/print-requests", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      title: String(formData.get("title") ?? "").trim(),
+      pages: Number(formData.get("pages")),
+      printerId: Number(formData.get("printerId")),
+    }),
+  });
   // TODO C: solo si responde 201, leer el id de la respuesta y abrir el comprobante.
-  void formData;
+  if (response?.status !== 201) redirect("/print-requests/new?error=api");
+
+  const request = await response.json().catch(() => null);
+  const id = request?.id;
+  if (typeof id !== "number" || !Number.isSafeInteger(id) || id < 1) {
+    redirect("/print-requests/new?error=receipt");
+  }
+
+  redirect(`/print-requests/${id}`);
+
 }
 
 export default async function NewPrintRequestPage() {
