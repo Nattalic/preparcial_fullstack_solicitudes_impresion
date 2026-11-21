@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { clearSessionToken } from "../../lib/session";
 import { apiFetch } from "../../lib/api";
-import { PrintRequest } from "../../lib/print-types";
+import type { PrintRequest } from "../../lib/print-types";
 
 async function logout() {
   "use server";
@@ -41,7 +41,7 @@ export default async function PrintRequestsPage({ searchParams }: PrintRequestsP
         {requests === null && <p role="alert">No se pudieron consultar las solicitudes.</p>}
       {requests?.length === 0 && <p>No hay solicitudes para mostrar.</p>}
       {requests && requests.length > 0 && (
-        <section className="orders-grid" aria-label="Solicitudes de impresoras">
+        <section className="orders-grid" aria-label="Solicitudes">
           {requests.map((request) => (
             <article key={request.id}>
               <h2>{request.title}</h2>

@@ -7,7 +7,6 @@ type PrintRequestDetailProps = {
   params: Promise<{ id: string }>;
 };
 
-
 export default async function PrintRequestDetailPage({ params }: PrintRequestDetailProps) {
   // TODO C: leer id de params y consultar la solicitud mediante apiFetch.
     const { id } = await params;
